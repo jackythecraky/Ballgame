@@ -30,7 +30,7 @@ function game() {
         var holeTop = parseInt(window.getComputedStyle(hole).getPropertyValue("top"));
         var cTop = -(500 - characterTop);
         if ((characterTop > 480) || ((blockLeft < 20) && (blockLeft > -50) && ((cTop < holeTop) || (cTop > holeTop + 130)))) {
-            alert("Lecture Is Over. Lecture Attended: " + (counter)); 
+            alert("Lecture Is Over. Lecture Attended: " + (counter-1)); 
             character.style.top = 100 + "px";
             counter = 0;
             location.reload(); 
