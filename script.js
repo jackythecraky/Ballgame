@@ -3,14 +3,9 @@ var hole = document.getElementById("hole");
 var character = document.getElementById("character");
 var jumping = 0;
 var counter = 0;
-let values = ["IOT", "WS", "GP", "AI", "ST", "JAVA", "Data SCi",];
+let values = ["IOT", "WS", "GP", "AI", "ST", "JAVA", "Data SCI",];
 
 const text = document.createTextNode("Welcome to My channel");
-
-
-document.body.style.backgroundImage =
-    "url('https://www.icolorpalette.com/download/solidcolorimage/009d94_solid_color_background_icolorpalette.png')";
-
 
 hole.addEventListener('animationiteration', () => {
     var random = -((Math.random() * 300) + 150);
