@@ -1,304 +1,445 @@
 
+Practical No. 3
+
+3.1. Opening chrome from Eclipse using selenium
+
+NOTE: We are going to use Eclipse IDE for this practical.
+
+    1. Download latest Eclipse IDE (java development) from official site.
+    2. Install Eclipse IDE and launch it, set its workspace directory.
+    3. Create a new Java Project, set appropriate project name and click on next
+
+    4. Now navigate to Libraries and click on Add External JARs
+    5. Add these JARs and click on Finish and a window will popup saying do you want to create module? Just click on don’t create 
 
 
-Practical No.: 3
-Aim: Buffers, Shaders and HLSL (Draw a triangle using Direct3D 11)
-Code:
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using Microsoft.DirectX.Direct3D;
-using Microsoft.DirectX;
-namespace Pract02
-{
-public partial class Form1 : Form
-{
-Microsoft.DirectX.Direct3D.Device device;
-public Form1()
-{
-InitializeComponent();
-InitDevice();
-}
-public void InitDevice()
-{
-PresentParameters pp = new PresentParameters();
-pp.Windowed = true;
-pp.SwapEffect = SwapEffect.Discard;
-device = new Device(0, DeviceType.Reference, this,
-CreateFlags.SoftwareVertexProcessing, pp);
-}
-private void Render()
-{
-CustomVertex.TransformedColored[] vertexes = new
-CustomVertex.TransformedColored[3];
-vertexes[0].Position = new Vector4(240, 110, 0, 1.0f);
-vertexes[0].Color = System.Drawing.Color.FromArgb(0, 255, 0).ToArgb();
-vertexes[1].Position = new Vector4(380, 420, 0, 1.0f);
-vertexes[1].Color = System.Drawing.Color.FromArgb(0, 0, 255).ToArgb();
-vertexes[2].Position = new Vector4(110, 420, 0, 1.0f);
-vertexes[2].Color = System.Drawing.Color.FromArgb(255, 0, 0).ToArgb();
-device.Clear(ClearFlags.Target, Color.CornflowerBlue, 1.0f, 0);
+Now we are ready to code just create the new class file by right clicking on the “src” folder and set appropriate class name like I am using “LaunchChrome” as my class name. Make sure you have latest ChromeDriver.
+               Code:
+package pract;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
-device.BeginScene();
-device.VertexFormat = CustomVertex.TransformedColored.Format;
-device.DrawUserPrimitives(PrimitiveType.TriangleList, 1, vertexes);
-device.EndScene();
-device.Present();
+public class LaunchChrome {
+	//public static String driverPath="D:\\TYCS28\\eclipse"
+	public static WebDriver driver;
+		
+	public static void main(String[] args) {
+			// TODO Auto-generated method stub
+		System.out.println("Launching chrome....");
+	System.setProperty("webdriver.chrome.driver", "D:\\Documents\\College\\Practicals\\ST\\seleniumjars\\chromedriver-105.exe");
+		driver = new ChromeDriver();
+		driver.navigate().to("http://google.com");		
+		}
 }
-protected override void OnPaint(PaintEventArgs e)
-{
-Render();
+Now, lets run the program by right clicking on class name click on Run As > 1 Java Application
+               
+
+3.2. write a code to search Selenium tutorial in google through code.
+               Code:
+package pract3;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Search {
+	public static void main(String args[]) {
+		//System Property for Chrome Driver
+		System.setProperty("webdriver.chrome.driver","D:\\Documents\\College\\Practicals\\ST\\seleniumjars\\chromedriver-105.exe");
+		// Instantiate a ChromeDriver class.
+		WebDriver driver = new ChromeDriver();
+		driver.navigate().to("https://google.co.in/");
+		//Maximize the browser
+		driver.manage().window().maximize();
+		//Search on the web
+		WebElement element = driver.findElement(By.name("q"));
+		element.sendKeys("junit");
+		element.submit();
+	}
 }
-}
-}
-Output:
 
 
+3.3. write and test a program to login into Facebook Account use Selenium.
+   Code:
+package pract3;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 
-Practical No.: 4
-Aim: Texturing (Texture the Triangle using Direct 3D 11)
-Code:
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-namespace Pract03
-{
-public partial class Form1 : Form
-{
-private Device device = null;
-private CustomVertex.PositionTextured[] vertex = new
-CustomVertex.PositionTextured[3];
-private Texture texture;
-public Form1()
-{
-InitializeComponent();
-InitDevice();
+public class LoginIntoFB {
+	public static void main(String args[]) {
+		//System Property for Chrome Driver
+		System.setProperty("webdriver.chrome.driver","D:\\Documents\\College\\Practicals\\ST\\seleniumjars\\chromedriver-105.exe");
+		// Instantiate a ChromeDriver class.
+		WebDriver driver = new ChromeDriver();
+		driver.navigate().to("https://www.facebook.com/");
+		//Maximize the browser
+		driver.manage().window().maximize();
+		//Enter values and submit them
+		WebElement elementEmail = driver.findElement(By.name("email"));
+		elementEmail.sendKeys("student.unity@proton.me");
+		WebElement elementPasswd = driver.findElement(By.name("pass"));
+		elementPasswd.sendKeys("Unity@1234");
+		WebElement elementSubmit = driver.findElement(By.name("login"));
+		elementSubmit.submit();
+	}
 }
-private void InitDevice()
-{
-PresentParameters pp = new PresentParameters();
-pp.Windowed = true;
-pp.SwapEffect = SwapEffect.Discard;
-device = new Device(0, DeviceType.Hardware, this,
-CreateFlags.SoftwareVertexProcessing, pp);
-}
-private void Form1_Load(object sender, EventArgs e)
-{
-device.Transform.Projection = Matrix.PerspectiveFovLH(3.14f / 4,
-device.Viewport.Width / device.Viewport.Height, 1f, 1000f);
-device.Transform.View = Matrix.LookAtLH(new Vector3(0, 0, 20), new
-Vector3(), new Vector3(0, 1, 0));
+               
 
-device.RenderState.Lighting = false;
-vertex[0] = new CustomVertex.PositionTextured(new Vector3(0, 0, 0), 0, 0);
-vertex[1] = new CustomVertex.PositionTextured(new Vector3(5, 0, 0), 0, 1);
-vertex[2] = new CustomVertex.PositionTextured(new Vector3(0, 5, 0), -1, 1);
-texture = new Texture(device, new Bitmap("D:\\Pictures\\Screenshots\\gold-
-marble-texture-background.jpg"), 0, Pool.Managed);
-}
-private void Form1_Paint(object sender, PaintEventArgs e)
-{
-device.Clear(ClearFlags.Target, Color.CornflowerBlue, 1, 0);
-device.BeginScene();
-device.SetTexture(0, texture);
-device.VertexFormat = CustomVertex.PositionTextured.Format;
-device.DrawUserPrimitives(PrimitiveType.TriangleList, vertex.Length / 3,
-vertex);
-device.EndScene();
-device.Present();
-}
-}
-}
-Output:
+       Practical No. 4
+       
+     Write and test the calculator program using JUnit.
+
+    1. Download JUnit via https://search.maven.org/search?q=g:junit%20AND%20a:junit
+    2. Download hamcrest-core 1.3 via https://search.maven.org/artifact/org.hamcrest/hamcrest-core/1.3/jar
+    3. Move these 2 JARs to your preferred location or move them to the Selenium JARs folder.
+    4. Now launch the Eclipse with your workspace and 
+    5. Import these JARs by right click on your project (in Package Explorer) > Build Path > Configure Build Path.
+    6. The window will appear
+    7. Click on Classpath and click on Add External JARs Button and add those 2 JARs. 
+    8. Once done click on Apply and Close.
 
 
+    1. Create new class file named as Calculator, and write the following code:
+public class Calculator {
+	public int add(int a, int b) {
+        return a + b;
+    }
+     
+    public int subtract(int a, int b) {
+        return a - b;
+    }
+}
+    2. Now, Create JUnit Test Case, 
 
-Practical No.: 5
-Aim: Lightning (Programmable Diffuse Lightning using Direct3D 11)
-Code:
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-namespace Pract04
-{
-public partial class Form1 : Form
-{
-private Device device = null;
-private CustomVertex.PositionNormalColored[] vertex = new
-CustomVertex.PositionNormalColored[3];
-public Form1()
-{
-InitializeComponent();
-InitDevice();
-}
-private void InitDevice()
-{
-PresentParameters pp = new PresentParameters();
-pp.Windowed = true;
-pp.SwapEffect = SwapEffect.Discard;
-device = new Device(0, DeviceType.Reference, this,
-CreateFlags.SoftwareVertexProcessing, pp);
-}
-private void Form1_Load(object sender, EventArgs e)
-{
-device.Transform.Projection = Matrix.PerspectiveFovLH(3.14f /
-4,device.Viewport.Width / device.Viewport.Height, 1f, 1000f);
-device.Transform.View = Matrix.LookAtLH(new Vector3(0, 0, 10), new
-Vector3(0, 1, 1), new Vector3(1, 0, 1));
-device.RenderState.Lighting = false;
-vertex[0] = new CustomVertex.PositionNormalColored(new Vector3(0, 1, 1),
-new Vector3(1, 0, 1), Color.Red.ToArgb());
+    3. In class under test field click on browse. 
 
-vertex[1] = new CustomVertex.PositionNormalColored(new Vector3(-1, -1, 1),
-new Vector3(1, 0, 1), Color.Red.ToArgb());
-vertex[2] = new CustomVertex.PositionNormalColored(new Vector3(1, -1, 1),
-new Vector3(-1, 0, 1), Color.Red.ToArgb());
-device.RenderState.Lighting = true;
-device.Lights[0].Type = LightType.Directional;
-device.Lights[0].Diffuse = Color.Plum;
-device.Lights[0].Direction = new Vector3(0.8f, 0, -1);
-device.Lights[0].Enabled = true;
-}
-private void Form1_Paint(object sender, PaintEventArgs e)
-{
-device.Clear(ClearFlags.Target, Color.CornflowerBlue, 1, 0);
-device.BeginScene();
-device.VertexFormat = CustomVertex.PositionNormalColored.Format;
-device.DrawUserPrimitives(PrimitiveType.TriangleList, vertex.Length / 3,
-vertex);
-device.EndScene();
-device.Present();
-}
-}
-}
-Output:
+    4. Enter Calculator and select appropriate class from the search.
+
+    5. Click on OK.
+    6. Click on Next
+
+    7. Select the 2 Methods of the Calculator, and click on Finish
+
+    8. Template will generate. We will be writing the code in @Test block:
+
+    9. Write the code given below in place of fail("Not yet implemented");
+@Test
+	public void testAdd() {
+		Calculator calculator = new Calculator();
+	    int a = 1234;
+	    int b = 5678;
+	    int actual = calculator.add(a, b);
+	 
+	    int expected = 6912;
+	 
+	    assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testSubtract() {
+		Calculator calculator = new Calculator();
+	    int a = 1234;
+	    int b = 5678;
+	    int actual = calculator.substract(b, a);
+	 
+	    int expected = 4444;
+	 
+	    assertEquals(expected, actual);
+	}
+
+    10. Right click > Run as > 1 JUnit File.
+               Output:
 
 
-Practical No.: 6
-Aim: Demonstrating spotlight using DirectX11 and rendering
-Code:
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-namespace Pract05
-{
-public partial class Form1 : Form
-{
-private Device device;
-private float angle = 0f;
-public Form1()
-{
-InitializeComponent();
-InitializeDevice();
-this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.Opaque,
-true);
-}
-public void InitializeDevice()
-{
-PresentParameters pp = new PresentParameters();
-pp.Windowed = true;
-pp.SwapEffect = SwapEffect.Discard;
-device = new Device(0, DeviceType.Hardware,
-this,CreateFlags.SoftwareVertexProcessing, pp);
-device.RenderState.CullMode = Cull.None;
-device.RenderState.Lighting = true;
-device.Lights[0].Type = LightType.Spot;
-device.Lights[0].Range = 4;
-device.Lights[0].Position = new Vector3(0, -1, 0f);
-device.Lights[0].Enabled = true;
-}
-private void Form1_Paint(object sender, PaintEventArgs e)
+       Practical No. 5
+       
+Write and test a program to update 6 students records into table into Excel file (using TestNG)
+
+1. Create new Excel Workbook and add the following data:
+
+2. And now save as
 
 
-Practical no.7
-Aim: Loading models into DirectX 11 and rendering
-Code:
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-namespace deviceinit
-{
-public partial class Form1 : Form
-{
-Device device;
-Texture texture;
-Microsoft.DirectX.Direct3D.Font font;
-public Form1()
-{
-InitializeComponent();
-InitDevice();
-InitFont();
-LoadTexture();
-}
-private void InitFont()
-{
+2.  Now start Eclipse and install TestNG by click on Help and select Eclipse Marketplace.
+3. Search TestNG and hit Enter, and click on Install
 
-System.Drawing.Font f = new System.Drawing.Font("Arial", 16f,
-FontStyle.Regular);
-font = new Microsoft.DirectX.Direct3D.Font(device, f);
+3. Now, create new Java Project,  create new Java Class.
+4. And Add TestNG Library and jexcelapi JARs.
+
+
+
+5. Add these JARs and click on Finish and a window will popup saying do you want to create module? Just click on don’t create.
+6. Now create new JAVA Class.
+7. Now type the code given below in Pract5.java
+package pract5;
+
+import jxl.*;
+import jxl.write.*;
+
+import org.testng.annotations.*;
+import java.io.*;
+public class Pract5 {
+	@BeforeClass
+	public void f1() {}
+	@Test
+	public void testImportExport() throws Exception{
+		FileInputStream fi = new FileInputStream("/run/media/pranav/Data/Pranav/College/Practical/ST/Book.xls");
+		Workbook w = Workbook.getWorkbook(fi);
+		Sheet s = w.getSheet(0);
+		String a[][]=new String[s.getRows()][s.getColumns()];
+		FileOutputStream fo = new FileOutputStream("/run/media/pranav/Data/Pranav/College/Practical/ST/resBook.xls");
+		WritableWorkbook wwb = Workbook.createWorkbook(fo);
+		WritableSheet ws = wwb.createSheet("result", 0);
+		for(int i=0; i<s.getRows();i++)
+			for(int j=0; j<s.getColumns();j++) {
+				a[i][j]=s.getCell(j,i).getContents();
+				Label l2 = new Label(j,i,a[i][j]);
+				ws.addCell(l2);
+				Label l1 = new Label(6,0,"Result");
+				ws.addCell(l1);
+			}
+		for(int i=1;i<s.getRows();i++) {
+			for(int j=2;j<s.getColumns();j++) {
+				a[i][j]=s.getCell(j,i).getContents();
+				int x = Integer.parseInt(a[i][j]);
+				if(x>35) {
+					Label l1 = new Label(6,i,"pass");
+					ws.addCell(l1);
+				}
+				else {
+					Label l1 = new Label(6,i,"fail");
+					ws.addCell(l1);
+					break;
+				}
+			}
+		}
+		wwb.write();
+		wwb.close();
+	}
 }
-private void LoadTexture()
-{
-texture = TextureLoader.FromFile(device, "D:\\Pictures\\Screenshots\\
-test2.jpg", 400, 400, 1, 0, Format.A8B8G8R8, Pool.Managed, Filter.Point,
-Filter.Point, Color.Transparent.ToArgb());
+8. Now run the file as 1 TestNG test
+
+
+       Practical No. 6
+       
+Write & test a program to select the number of students who have scored more than 60 in any one subject (or all subjects) using TestNG.
+
+1. Create new Excel Workbook and add the following data:
+2. And now save as
+
+3. Now, create new Java Project,  create new Java Class.
+4. And Add TestNG Library and jexcelapi JARs. Into buildpath (classpath)
+
+5. Add these JARs and click on Finish and a window will popup saying do you want to create module? Just click on don’t create.
+6. Now create new JAVA Class and type following code:
+
+package pract6;
+
+import jxl.*;
+import jxl.write.*;
+import java.io.*;
+import org.testng.annotations.Test;
+
+public class Pract6 {
+    @Test
+    public void testImportexport()throws Exception{
+        FileInputStream fi = new FileInputStream("/home/pranav/Documents/college/ST/Book2.xls");
+        Workbook w = Workbook.getWorkbook(fi);
+        Sheet s = w.getSheet(0);
+        String a[][] = new String[s.getRows()][s.getColumns()];
+        FileOutputStream fo = new FileOutputStream("/home/pranav/Documents/college/ST/resBook2.xls");
+        WritableWorkbook wwb = Workbook.createWorkbook(fo);
+        WritableSheet ws = wwb.createSheet("result",0);
+        int c = 0;
+        for(int i=0;i<s.getRows();i++){
+            for(int j=0;j<s.getColumns();j++){
+                if(i>=1){
+                    String b = new String();
+                    b = s.getCell(3,i).getContents();
+                    int x = Integer.parseInt(b);
+                    if(x<60){
+                        c++;
+                        break;
+                    }
+                }
+                a[i][j] = s.getCell(j,i).getContents();
+                Label L2 = new Label(j,i-c,a[i][j]);
+                ws.addCell(L2);
+            }
+        }
+        wwb.write();
+        wwb.close();
+    }
 }
-private void InitDevice()
-{
-PresentParameters pp = new PresentParameters();
-pp.Windowed = true;
-pp.SwapEffect = SwapEffect.Discard;
-device = new Device(0, DeviceType.Hardware, this,
-CreateFlags.SoftwareVertexProcessing, pp);
-}
-private void Render()
-{
-device.Clear(ClearFlags.Target, Color.CornflowerBlue, 0, 1);
-device.BeginScene();
-using (Sprite s = new Sprite(device))
-{
-s.Begin(SpriteFlags.AlphaBlend);
-s.Draw2D(texture, new Rectangle(0, 0, 0, 0), new Rectangle(0, 0,
-device.Viewport.Width, device.Viewport.Height), new Point(0, 0), 0f, new Point(0, 0),
-Color.White);
-font.DrawText(s, "Ajay Negar", new Point(0, 0), Color.White);
-s.End();
+7. Now run the file as 1 TestNG test
+               Output:
+
+
+
+             Practical No. 7
+
+Write and test a program to provide total numbers of objects present / available on the page.
+
+1. Create a new Java Project and create a new Class then add External Selenium JARs
+
+2. Click on Finish and a window will popup saying do you want to create module? Just click on don’t create.
+3. Now add the following code in newly created Class.
+package pract7;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Pract7{
+    public static String driverPath = "usr\\bin\\";
+
+    public static WebDriver driver;
+
+    public static void main (String args[]){
+        System.setProperty("webdriver.chrome.driver",driverPath+"chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://kirticollege.edu.in/");
+
+        java.util.List<WebElement> links = driver.findElements(By.tagName("a"));
+        System.out.println("Total Links are"+links.size());
+        for(int i=0;i<links.size();i++){
+            System.out.println("Link"+i+"Link name"+links.get(i).getText());
+        }
+        driver.quit();
+    }
 }
 
-device.EndScene();
-device.Present();
+
+                   Practical No. 8
+
+Write and test a program to print total numbers of single drop down list items present / available on the page and print selected item.
+
+
+NOTE: Follow the same steps to create new project and class as Practical 7 for Practical 8, Practical 9 and Practical 10.
+code:
+package pract8;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+public class Pract8 {
+    public static WebDriver driver;
+    public static void main(String[] args) throws InterruptedException {
+    System.setProperty("webdriver.chrome.driver","usr\\bin\\chromedriver.exe");
+    WebDriver driver = new ChromeDriver();
+    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    driver.get("https://automationexplore.com/selenium-automation-practice-page/");
+    Select oSelect = new Select(driver.findElement(By.name("country")));
+    oSelect.selectByVisibleText("India");
+    Thread.sleep(2000);
+    oSelect.selectByIndex(2);
+    Thread.sleep(2000);
+    List<WebElement> oSize = oSelect.getOptions();
+    int iListSize= oSize.size();
+    System.out.println("No of items"+iListSize);
+    for(int i=0;i<iListSize ; i++) {
+        String sValue = oSelect.getOptions().get(i).getText();
+        System.out.println(sValue);
+        if(sValue.equals("USA")) {
+            oSelect.selectByIndex(i);
+            break;
+        }
+    }
+    driver.quit();
 }
-private void Form1_Paint(object sender, PaintEventArgs e)
-{
-Render();
+
+
+                                  Practical No. 9
+
+Write and test a program to print total numbers of Multiple drop down list items present / available on the page and print selected item.
+
+NOTE: Follow the same steps to create new project and class as Practical 7 for Practical 8, Practical 9 and Practical 10.
+package pract9;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+public class pract9 {
+    public static WebDriver driver;
+    public static void main(String[] args) throws InterruptedException {
+    System.setProperty("webdriver.chrome.driver","usr\\bin\\chromedriver.exe");
+    WebDriver driver = new ChromeDriver();
+    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    driver.get("https://automationexplore.com/selenium-automation-practice-page/");
+    Select oSelect = new Select(driver.findElement(By.name("skills")));
+    oSelect.selectByIndex(0);
+    Thread.sleep(2000);
+    oSelect.deselectByIndex(0);
+    oSelect.selectByVisibleText("Manual Testing");
+    Thread.sleep(2000);
+    oSelect.deselectByVisibleText("Manual Testing");
+    List<WebElement> oSize = oSelect.getOptions();
+    int iListSize= oSize.size();
+    System.out.println("No of items"+iListSize);
+    for(int i=0;i<iListSize ; i++) {
+        String sValue = oSelect.getOptions().get(i).getText();
+        System.out.println(sValue);
+        oSelect.selectByIndex(i);
+        Thread.sleep(2000);
+    }
+    oSelect.deselectAll();
+    driver.close();
+    }
 }
+
+
+Practical No. 10
+
+Write and test a program to print total numbers of check boxes present / available on the page and print selected check box.
+
+NOTE: Follow the same steps to create new project and class as Practical 7 for Practical 8, Practical 9 and Practical 10.
+package pract10;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Pract10 {
+	public static void main(String[] args) {
+		System.setProperty("webdriver.chrome.driver","\\usr\\bin\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.get("https://www.techlistic.com/p/selenium-practice-form.html");
+		
+		List<WebElement>rdBtn_Gender = driver.findElements(By.id("sex-0"));
+		boolean bValue = false;
+		bValue = rdBtn_Gender.get(0).isSelected();
+		if(bValue == true) {
+			rdBtn_Gender.get(1).click();
+		}else {
+			rdBtn_Gender.get(0).click();
+		}
+		List<WebElement> chkBx_Profession=driver.findElements(By.name("profession"));
+		int iSize = chkBx_Profession.size();
+		System.out.println("Checkbox.Size:"+iSize);
+		for(int i=0;i<iSize;i++) {
+			String sValue = chkBx_Profession.get(i).getAttribute("value");
+			System.out.println("Checkbox.Value:"+sValue);
+			if(sValue.equalsIgnoreCase("Manual Tester")) {
+				chkBx_Profession.get(i).click();		
+				break;
+			}
+		}
+		System.out.println("Successsfull");
+		driver.quit();
+	}
 }
-}
+
+
