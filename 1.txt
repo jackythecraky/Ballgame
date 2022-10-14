@@ -49,40 +49,40 @@ PRACTICAL 4
 
 AIM : College Web service including course and fees
 
-package Service;
+package server;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import java.io.*;
 import java.sql.*;
-@WebService(serviceName = "NewWebService")
-public class NewWebService
-{
-Connection con;
-Statement st;
-ResultSet rs;
-float cutoff, fees;
-String coursen ;
-@WebMethod(operationName = "getCutOff")
-public Float getCutOff(@WebParam(name = "course") String course)
-{
-//TODO write your implementation code here:
+@WebService(serviceName = "CollegeWebService")
+public class CollegeWebService_yash30 {
+    Connection con;
+    Statement st;
+ResultSetrs;
+    float cutoff, fees;
+    String coursen ;
+
+@WebMethod(operationName = "getCutoff")
+public Float getCutoff(@WebParam(name = "course") String course) 
+    {
 coursen=course;
-try
-{
-con =DriverManager.getConnection("jdbc:derby://localhost:1527/MyDB_Rollno30","admin
-30","admin30");
-st = con.createStatement();
-rs = st.executeQuery("select * from College where Course="+ "\'" + coursen +"\'");
+            try
+                { 
+con=DriverManager.getConnection("jdbc:derby://localhost:1527/MyDB_Rollno30","admin30","admin30");            st=con.createStatement();
+rs=st.executeQuery("select * from College where Course="+ "\'" + coursen + "\'");
 System.out.println(coursen);
 rs.next();
 cutoff=Float.parseFloat(rs.getString(2));
-}
-catch( SQLException e){
+
+                }
+catch( SQLException e)
+                {
 System.out.println(e.getMessage());
-}
-return cutoff;
-}
+                }
+            return cutoff;
+    } 
+
 
 Program 6.1
 
