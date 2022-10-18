@@ -21,6 +21,7 @@ i+=1
 
 
 javascript
+[10,15,11,17,14,21,16]
 
 var arr = msg.payload;
 var arr1 = arr.slice(1,-1)
