@@ -1,651 +1,151 @@
-Practical 1
 
-Question:- Implement Breadth first search algorithm for Romanian map
-problem.
+Fibonacci 
 
-Code:
+number = int(input("how many terms?:"))
 
-from collections import deque
-infinity = float('inf')
-class Node:
-def __init__(self, state, parent=None, action=None, path_cost=0):
-self.state = state
-self.parent = parent
-self.action = action
-self.path_cost = path_cost
-self.depth = 0
-if parent:
-self.depth = parent.depth + 1
-def __repr__(self): # to print node objects
-return "<Node {}>".format(self.state)
-def expand(self, problem): # to extract children
-return [self.child_node(problem, action) for action in problem.actions(self.state)]
-def child_node(self, problem, action): # to make node object of each child
-next_state = problem.result(self.state, action)
-next_node = Node(next_state, self, action, problem.path_cost(self.path_cost, self.state,action,
-next_state))
-return next_node
-def solution(self): # extracts the path of solution is
-return [node.state for node in self.path()]
-def path(self): # extracts the path of any node starting from current to source
-node, path_back = self, []
-while node:
-path_back.append(node)
-node = node.parent
-return list(reversed(path_back)) # order changed to show from source to current
-class Problem(object): # same as given in theory
-def __init__(self, initial, goal=None):
-self.initial = initial
-self.goal = goal
-def actions(self, state):
-raise NotImplementedError
-def result(self, state, action):
-raise NotImplementedError
-def goal_test(self, state):
-return state == self.goal
-def path_cost(self, c, state1, action, state2):
-return c + 1
-def value(self, state):
-raise NotImplementedError
-class GraphProblem(Problem): # subclass of problem, few functions overriden
-def __init__(self, initial, goal, graph):
-Problem.__init__(self, initial, goal)
-self.graph = graph
-def actions(self, A):
-return list(self.graph.get(A).keys())
-def result(self, state, action):
-return action
-def path_cost(self, cost_so_far, A, action, B):
-return cost_so_far + (self.graph.get(A, B) or infinity)
-class Graph: # to represent graph
-def __init__(self, graph_dict=None, directed=True):
-self.graph_dict = graph_dict or {}
-self.directed = directed
-if not directed:
-self.make_undirected()
-def make_undirected(self):
-for a in list(self.graph_dict.keys()):
-print("processing node ...", a)
-for (b, dist) in self.graph_dict[a].items():
-print("-->", a, " connects ", b, " by distance :", dist)
-def get(self, a, b=None):
-links = self.graph_dict.get(a)
-if b is None:
-return links
+# main function
+
+def fibo(n):
+if n<=1:
+return n
 else:
-cost = links.get(b)
-return cost
-def nodes(self):
-nodelist = list()
-for key in self.graph_dict.keys() :
-nodelist.append(key)
-return nodelist
-def UndirectedGraph(graph_dict=None): # this function creates graph
-return Graph(graph_dict = graph_dict, directed=False)
-def breadth_first_tree_search(problem): # our algorithm
-frontier = deque([Node(problem.initial)])
-print("Search begins from : ", frontier)
-while frontier:
-node = frontier.popleft()
-print("Now exploring...", node)
-if problem.goal_test(node.state):
-return node
-x = node.expand(problem)
-print("Expanded Nodes :",x)
-frontier.extend(x)
-return None
-# we are giving full description of graph through dictionary.
-# The Graph class is not building any additional links
-romania_map = UndirectedGraph({'Arad': {'Zerind': 75, 'Sibiu': 140, 'Timisoara': 118}, 'Bucharest':
-{'Urziceni': 85, 'Pitesti': 101, 'Giurgiu': 90, 'Fagaras': 211}, 'Craiova': {'Drobeta': 120, 'Rimnicu':
-146, 'Pitesti': 138}, 'Drobeta': {'Mehadia': 75, 'Craiova': 120}, 'Eforie': {'Hirsova': 86}, 'Fagaras':
-{'Sibiu': 99, 'Bucharest': 211}, 'Hirsova': {'Urziceni': 98, 'Eforie': 86}, 'Iasi': {'Vaslui': 92, 'Neamt':
-87}, 'Lugoj': {'Timisoara': 111, 'Mehadia': 70}, 'Oradea': {'Zerind': 71, 'Sibiu': 151}, 'Pitesti':
-{'Rimnicu': 97, 'Bucharest': 101, 'Craiova': 138}, 'Rimnicu': {'Sibiu': 80, 'Craiova': 146, 'Pitesti':
-97}, 'Urziceni': {'Vaslui': 142, 'Bucharest': 85, 'Hirsova': 98}, 'Zerind': {'Arad': 75, 'Oradea': 71},
-'Sibiu': {'Arad': 140, 'Fagaras': 99, 'Oradea': 151, 'Rimnicu': 80}, 'Timisoara': {'Arad': 118, 'Lugoj':
-111}, 'Giurgiu': {'Bucharest': 90}, 'Mehadia': {'Drobeta': 75, 'Lugoj': 70}, 'Vaslui': {'Iasi': 92,
-'Urziceni': 142}, 'Neamt': {'Iasi': 87}})
-print("after construcing grpah - ")
-print(romania_map.graph_dict)
-print("------")
-print("Children of Arad ", romania_map.get('Arad'))
-print("distance from arad to sibiu = ",romania_map.get('Arad','Sibiu'))
-print("=============== BFS Algo ====================")
-romania_problem = GraphProblem('Arad','Bucharest', romania_map)
-print("Keys of Arad ", romania_problem.actions( 'Arad'))
-finalnode = breadth_first_tree_search(romania_problem)
-print("solution of ", romania_problem.initial, " to ", romania_problem.goal, finalnode.solution())
-print("path cost of final node =", finalnode.path_cost) 
+return fibo(n-1)+fibo(n-2)
 
 
+number = 5
+#calling 1 to 5 fibo
+i = 0
+while i <= number:
+print(fibo(i))
+i+=1
 
 
+javascript
 
-Practical 2
+var arr = msg.payload;
+var arr1 = arr.slice(1,-1)
+console.log(arr1);
+var arr2 = arr1.split(',');
+console.log(arr2);
 
-Question:- Implement depth first search for Romanian map
-problem.
-
-Code:
-
-graph = {'Arad': ['Zerind', 'Timisoara', 'Sibiu'],
-'Bucharest': ['Urziceni','Pitesti', 'Giurgiu','Fagaras'],
-'Craiova': ['Dobreta', 'Rimnicu Vilcea', 'Pitesti'],
-'Dobreta': ['Mehadia'],
-'Eforie': ['Hirsova'],
-'Iasai': ['Vaslui','Neamt'],
-'Lugoj': ['Timisoara','Mehadia'],
-'Oradea': ['Zerind','Sibiu'],
-'Pitesti': ['Rimnicu Vilcea','Bucharest','Craiova'],
-'Urziceni': ['Vaslui'],
-'Zerind': ['Oradea','Arad'],
-'Sibiu': ['Oradea','Arad','Rimnicu Vilcea','Fagaras'],
-'Mehadia': ['Lugoj','Dobreta'],
-'Rimnicu Vilcea': ['Sibiu','Pitesti','Craiova'],
-'Fagaras': ['Sibiu','Bucharest'],
-'Giurgiu': ['Bucharest'],
-'Vaslui': ['Urziceni','Iasai'],
-'Neamt': ['Iasai']}
-pc = {('Arad','Zerind'):75,
-('Arad','Timisoara'):118,
-('Arad','Sibiu'):140,
-('Zerind','Oradea'):71,
-('Zerind','Arad'):75,
-('Timisoara','Arad'):118,
-('Timisoara','Lugoj'):111,
-('Sibiu','Arad'):140,
-('Sibiu','Rimnicu Vilcea'):80,
-('Sibiu','Fagaras'):99,
-('Sibiu','Oradea'):151,
-('Oradea','Zerind'):71,
-('Oradea','Sibiu'):151,
-('Lugoj','Timisoara'):111,
-('Lugoj','Mehadia'):70,
-('Rimnicu Vilcea','Sibiu'):80,
-('Rimnicu Vilcea','Pitesti'):97,
-('Rimnicu Vilcea','Craiova'):147,
-('Fagaras','Sibiu'):99,
-('Fagaras','Bucharest'):211,
-('Mehadia','Lugoj'):70,
-('Mehadia','Dobreta'):75,
-('Pitesti','Rimnicu Vilcea'):97,
-('Pitesti','Bucharest'):101,
-('Pitesti','Craiova'):138,
-('Craiova','Rimnicu Vilcea'):146,
-('Craiova','Dobreta'):120,
-('Craiova','Pitesti'):138,
-('Bucharest','Fagaras'):211,
-('Bucharest','Bucharest'):0,
-('Bucharest','Pitesti'):101,
-('Bucharest','Giurgiu'):90,
-('Bucharest','Urziceni'):85,
+function sorting(arr)
+{
+    var done = false;
+    while(!done)
+    {
+        done = true;
+        for(var i = 0; i<arr.lenght;i++)
+        {
+            if(arr[i]>arr[i+1])
+            {
+                done = false;
+                var temp = arr[i];
+                arr[i] = arr[i+1];
+                arr[i+1] = temp
+                
+                
+                
+            }
+        }
+    }
+    return arr;
 }
-locs={'Arad': 366,
-'Bucharest': 0,
-'Craiova': 160,
-'Dobreta': 242,
-'Eforie': 161,
-'Iasai': 226,
-'Lugoj': 244,
-'Oradea': 380,
-'Pitesti': 100,
-'Urziceni': 80,
-'Zerind': 374,
-'Sibiu': 253,
-'Timisoara': 329,
-'Mehadia': 241,
-'Rimnicu Vilcea': 193,
-'Fagaras':176,
-'Giurgiu': 77,
-'Vaslui': 199,
-'Neamt': 234
-}
-def DFS(g, v, goal, explored, path_so_far,m):
-explored.add(v)
-node=[]
-if v == goal:
-return path_so_far + v
-for w in g[v]:
-if w not in explored:
-f=locs.get(w)+pc.get((v,w))
-if m>f:
-m=f
-print("%i%s%s" %(m,v,w))
-node=w
-p = DFS(g, node, goal, explored, path_so_far + v+'->',m)
-if p:
-return p
-return ""
-print(DFS(graph, 'Arad', 'Bucharest', set(), "",1000)) 
+msg.payload = sorting(arr2);
+return msg;
 
 
-Practical 3
 
-Question:- Implement Iterative deep depth first search for Romanian
-map problem.
+practical 6 
 
-Code:
+app.py
 
-from collections import deque
-import sys
-infinity = float('inf')
-class Node:
-def __init__(self, state, parent=None, action=None, path_cost=0):
-self.state = state
-self.parent = parent
-self.action = action
-self.path_cost = path_cost
-self.depth = 0
-if parent:
-self.depth = parent.depth + 1
-def __repr__(self):
-return "<Node {}>".format(self.state)
-def expand(self, problem):
-return [self.child_node(problem, action)
-for action in problem.actions(self.state)]
-def child_node(self, problem, action):
-next_state = problem.result(self.state, action)
-next_node = Node(next_state, self, action,
-problem.path_cost(self.path_cost, self.state,
-action, next_state))
-return next_node
-def solution(self):
-return [node.action for node in self.path()[1:]]
-def path(self):
-node, path_back = self, []
-while node:
-path_back.append(node)
-node = node.parent
-return list(reversed(path_back))
-def __eq__(self, other):
-return isinstance(other, Node) and self.state == other.state
-def __hash__(self):
-return hash(self.state)
-class Graph:
-def __init__(self, graph_dict=None, directed=True):
-self.graph_dict = graph_dict or {}
-self.directed = directed
-if not directed:
-self.make_undirected()
-def make_undirected(self):
-for a in list(self.graph_dict.keys()):
-for (b, dist) in self.graph_dict[a].items():
-self.connect1(b, a, dist)
-def connect(self, A, B, distance=1):
-self.connect1(A, B, distance)
-if not self.directed:
-self.connect1(B, A, distance)
-def connect1(self, A, B, distance):
-self.graph_dict.setdefault(A, {})[B] = distance
-def get(self, a, b=None):
-links = self.graph_dict.setdefault(a, {})
-if b is None:
-return links
-else:
-return links.get(b)
-def nodes(self):
-s1 = set([k for k in self.graph_dict.keys()])
-s2 = set([k2 for v in self.graph_dict.values() for k2, v2 in v.items()])
-nodes = s1.union(s2)
-return list(nodes)
-def UndirectedGraph(graph_dict=None):
-return Graph(graph_dict = graph_dict, directed=False)
-class Problem(object):
-def __init__(self, initial, goal=None):
-self.initial = initial
-self.goal = goal
-def actions(self, state):
-raise NotImplementedError
-def result(self, state, action):
-raise NotImplementedError
-def goal_test(self, state):
-if isinstance(self.goal, list):
-return is_in(state, self.goal)
-else:
-return state == self.goal
-def path_cost(self, c, state1, action, state2):
-return c + 1
-def value(self, state):
-raise NotImplementedError
-class GraphProblem(Problem):
-def __init__(self, initial, goal, graph):
-Problem.__init__(self, initial, goal)
-self.graph = graph
-def actions(self, A):
-return list(self.graph.get(A).keys())
-def result(self, state, action):
-return action
-def path_cost(self, cost_so_far, A, action, B):
-return cost_so_far + (self.graph.get(A, B) or infinity)
-def find_min_edge(self):
-m = infinity
-for d in self.graph.graph_dict.values():
-local_min = min(d.values())
-m = min(m, local_min)
-return m
-def depth_limited_search(problem, limit=50):
-def recursive_dls(node, problem, limit):
-if problem.goal_test(node.state):
-return node
-elif limit == 0:
-return 'cutoff'
-else:
-cutoff_occurred = False
-for child in node.expand(problem):
-result = recursive_dls(child, problem, limit - 1)
-if result == 'cutoff':
-cutoff_occurred = True
-elif result is not None:
-return result
-return 'cutoff' if cutoff_occurred else 'Not found'
-return recursive_dls(Node(problem.initial), problem, limit)
-def iterative_deepening_search(problem, limit):
-for depth in range(0,limit):
-print("checking with depth :", depth)
-result = depth_limited_search(problem, depth)
-print("result : ", result)
-return result
-romania_map = UndirectedGraph(dict(
-Arad=dict(Zerind=75, Sibiu=140, Timisoara=118),
-Bucharest=dict(Urziceni=85, Pitesti=101, Giurgiu=90, Fagaras=211),
-Craiova=dict(Drobeta=120, Rimnicu=146, Pitesti=138),
-Drobeta=dict(Mehadia=75),
-Eforie=dict(Hirsova=86),
-Fagaras=dict(Sibiu=99),
-Hirsova=dict(Urziceni=98),
-Iasi=dict(Vaslui=92, Neamt=87),
-Lugoj=dict(Timisoara=111, Mehadia=70),
-Oradea=dict(Zerind=71, Sibiu=151),
-Pitesti=dict(Rimnicu=97),
-Rimnicu=dict(Sibiu=80),
-Urziceni=dict(Vaslui=142)))
-print("searching from arad to bucharest with level 5...")
-romania_problem = GraphProblem('Arad','Bucharest', romania_map)
-print(iterative_deepening_search(romania_problem, 5))
-print("searching from arad to bucharest with level 2...")
-romania_problem = GraphProblem('Arad','Bucharest', romania_map)
-print(iterative_deepening_search(romania_problem, 2)) 
+import RPi.GPIO as GPIO
+from flask import Flask, render_template, request
+app = Flask(__name__)
+
+GPIO.setmode(GPIO.BCM)
+
+# Create a dictionary called pins to store the pin number, name, and pin state:
+pins = {
+   23 : {'name' : 'GPIO 23', 'state' : GPIO.LOW},
+   24 : {'name' : 'GPIO 24', 'state' : GPIO.LOW}
+   }
+
+# Set each pin as an output and make it low:
+for pin in pins:
+   GPIO.setup(pin, GPIO.OUT)
+   GPIO.output(pin, GPIO.LOW)
+
+@app.route("/")
+def main():
+   # For each pin, read the pin state and store it in the pins dictionary:
+   for pin in pins:
+      pins[pin]['state'] = GPIO.input(pin)
+   # Put the pin dictionary into the template data dictionary:
+   templateData = {
+      'pins' : pins
+      }
+   # Pass the template data into the template main.html and return it to the user
+   return render_template('main.html', **templateData)
+
+# The function below is executed when someone requests a URL with the pin number and action in it:
+@app.route("/<changePin>/<action>")
+def action(changePin, action):
+   # Convert the pin from the URL into an integer:
+   changePin = int(changePin)
+   # Get the device name for the pin being changed:
+   deviceName = pins[changePin]['name']
+   # If the action part of the URL is "on," execute the code indented below:
+   if action == "on":
+      # Set the pin high:
+      GPIO.output(changePin, GPIO.HIGH)
+      # Save the status message to be passed into the template:
+      message = "Turned " + deviceName + " on."
+   if action == "off":
+      GPIO.output(changePin, GPIO.LOW)
+      message = "Turned " + deviceName + " off."
+
+   # For each pin, read the pin state and store it in the pins dictionary:
+   for pin in pins:
+      pins[pin]['state'] = GPIO.input(pin)
+
+   # Along with the pin dictionary, put the message into the template data dictionary:
+   templateData = {
+      'pins' : pins
+   }
+
+   return render_template('main.html', **templateData)
+
+if __name__ == "__main__":
+   app.run(host='0.0.0.0', port=80, debug=True)
 
 
-Practical 4
-
-Question:- Implement a simple tree algorithm for Romanian map
-problem.
-
-Code:
-
-import random
-openList=[['Arad']]
-closedList=[]
-nodeList= {'Arad':['Sibiu','Timisora'],'Sibiu':['Arad','Timisora','Fagarus'],'Timisora':
-['Arad','Dorbeta'],'Dorbeta':['Timisora','Craiova'],'Fagarus':['Sibiu','Bucharest'],'Bucharest':
-['Dorbeta','Fagarus']}
-def goalTest(some_node):
-return some_node == 'Bucharest'
-def moveGen(some_node):
-return nodeList[some_node]
-def SS3():
-while len(openList)>0:
-random.shuffle(openList)
-print("Open list Contains", openList)
-seen = openList.pop(0)
-N = seen[0]
-closedList.append(N)
-print("Picked Node: ", N)
-if goalTest(N):
-print("Goal Found")
-print(seen)
-return
-else:
-neighbours=moveGen(N)
-print("Neighbours of ",N," are : ", neighbours)
-for node in neighbours:
-if(node not in openList) and (node not in closedList):
-l=[node,seen]
-openList.append(l)
-print("Goal Not Found”)
-SS3()
 
 
-Practical 5
+main.html
 
-Question:- Logistic Regression.
-Code:
+<!DOCTYPE html>
+<head>
+   <title>RPi Web Server</title>
+   <!-- Latest compiled and minified CSS -->
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+   <!-- Optional theme -->
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+   <!-- Latest compiled and minified JavaScript -->
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</head>
 
-import matplotlib.pyplot as plt
-import numpy as np
-from sklearn import datasets, linear_model
-from sklearn.metrics import mean_squared_error, r2_score
-diabetes_X, diabetes_y = datasets.load_diabetes(return_X_y=True)
-diabetes_X = diabetes_X[:, np.newaxis, 2]
-diabetes_X_train = diabetes_X[:-20]
-diabetes_X_test = diabetes_X[-20:]
-diabetes_y_train = diabetes_y[:-20]
-diabetes_y_test = diabetes_y[-20:]
-regr = linear_model.LinearRegression()
-regr.fit(diabetes_X_train, diabetes_y_train)
-diabetes_y_pred = regr.predict(diabetes_X_test)
-print("Coefficients: \n", regr.coef_)
-print("Mean squared error: %.2f" % mean_squared_error(diabetes_y_test, diabetes_y_pred))
-print("Coefficient of determination: %.2f" % r2_score(diabetes_y_test, diabetes_y_pred))
-plt.scatter(diabetes_X_test, diabetes_y_test, color="black")
-plt.plot(diabetes_X_test, diabetes_y_pred, color="blue", linewidth=3)
-plt.xticks(())
-plt.yticks(())
-plt.show() 
-
-
-Practical 6
-
-Question:- Implement decision tree learning algorithm for the restaurant
-waiting problem.
-
-Code:
-
-from sklearn import tree
-from sklearn.tree import DecisionTreeClassifier
-import pandas as pd
-dataset = pd.read_csv(“C:\\Restaurant.csv”)
-train_features = dataset.iloc[:80,:-1]
-"first 80 rows and last comlumn"
-test_features = dataset.iloc[80:,:-1]
-"after 80th rows and last comlumn"
-train_targets = dataset.iloc[:80,-1]
-test_targets = dataset.iloc[80:,-1]
-tree = DecisionTreeClassifier(criterion = 'entropy').fit(train_features,train_targets)
-prediction = tree.predict(test_features)
-print("The prediction accuracy is: ",tree.score(test_features,test_targets)*100,"%") 
-
-
-Practical 7
-
-Question:- Implement Naïve Bayes learning algorithm for the restaurant
-waiting problem.
-
-Code:
-
-from sklearn import datasets
-from sklearn import metrics
-from sklearn.naive_bayes import GaussianNB
-import pandas as pd
-dataset = pd.read_csv(“C:\\Restaurant.csv”)
-model = GaussianNB()
-model.fit(dataset.iloc[:90,0:8],dataset.iloc[:90,-1])
-print(model)
-expected = dataset.iloc[:90,-1]
-predicted = model.predict(dataset.iloc[:90,0:8])
-print(metrics.classification_report(expected, predicted))
-print(metrics.confusion_matrix(expected, predicted)) 
-
-Practical 8
-
-Question:- Implement feed forward back propagation neural network
-learning algorithm.
-
-Code:
-
-import numpy as np
-class NeuralNetwork():
-def __init__(self):
-np.random.seed()
-self.synaptic_weights=2*np.random.random((3,1))-1
-def sigmoid(self, x):
-return 1/(1+np.exp(-x))
-def sigmoid_derivative(self,x):
-return x*(1-x)
-def train(self,training_inputs,training_outputs,training_iterations):
-for iteration in range(training_iterations):
-output=self.think(training_inputs)
-error=training_outputs-output
-adjustments=np.dot(training_inputs.T,error*self.sigmoid_derivative(output))
-self.synaptic_weights+=adjustments
-def think(self,inputs):
-inputs=inputs.astype(float)
-output=self.sigmoid(np.dot(inputs,self.synaptic_weights))
-return output
-if __name__=="__main__":
-neural_network=NeuralNetwork()
-print("Beginning randomly generated weights: ")
-print(neural_network.synaptic_weights)
-training_inputs=np.array([[0,0,1],[1,1,1],[1,0,1],[0,1,1]])
-training_outputs=np.array([[0,1,1,0]]).T
-neural_network.train(training_inputs,training_outputs,15000)
-print("Ending weights after training: ")
-print(neural_network.synaptic_weights)
-user_input_one=str(input("User Input One: "))
-user_input_two=str(input("User Input Two: "))
-user_input_three=str(input("User Input Three: "))
-print("Considering new situation: ",user_input_one,user_input_two,user_input_three)
-print("New output data: ")
-print(neural_network.think(np.array([user_input_one,user_input_two,user_input_three]))) 
-
-
-Practical 9
-Question: Ensemble Learning
-
-9.1 Ada Boost
-
-import pandas
-from sklearn import model_selection
-from sklearn.ensemble import AdaBoostClassifier
-url = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv"
-names = ['preg', 'plas', 'pres', 'skin', 'test', 'mass', 'pedi', 'age', 'class']
-dataframe = pandas.read_csv(url, names=names)
-array = dataframe.values
-X = array[:,0:8]
-Y = array[:,8]
-seed = 7
-num_trees = 30
-kfold = model_selection.KFold(n_splits=10, random_state=None)
-model = AdaBoostClassifier(n_estimators=num_trees, random_state=None)
-results = model_selection.cross_val_score(model, X, Y, cv=kfold)
-print(results.mean()) 
-
-
-9.2 bagged-DT
-
-import pandas
-from sklearn import model_selection
-from sklearn.ensemble import BaggingClassifier
-from sklearn.tree import DecisionTreeClassifier
-url = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv"
-names = ['preg', 'plas', 'pres', 'skin', 'test', 'mass', 'pedi', 'age', 'class']
-dataframe = pandas.read_csv(url, names=names)
-array = dataframe.values
-X = array[:,0:8]
-Y = array[:,8]
-seed = 7
-kfold = model_selection.KFold(n_splits=10, random_state=None)
-cart = DecisionTreeClassifier()
-num_trees = 100
-model = BaggingClassifier(base_estimator=cart, n_estimators=num_trees, random_state=None)
-results = model_selection.cross_val_score(model, X, Y, cv=kfold)
-print(results.mean()) 
-
-
-9.3 Extra Trees Classification
-
-import pandas
-from sklearn import model_selection
-from sklearn.ensemble import ExtraTreesClassifier
-url = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv"
-names = ['preg', 'plas', 'pres', 'skin', 'test', 'mass', 'pedi', 'age', 'class']
-dataframe = pandas.read_csv(url, names=names)
-array = dataframe.values
-X = array[:,0:8]
-Y = array[:,8]
-seed = 7
-num_trees = 100
-max_features = 7
-kfold = model_selection.KFold(n_splits=10, random_state=None)
-model = ExtraTreesClassifier(n_estimators=num_trees, max_features=max_features)
-results = model_selection.cross_val_score(model, X, Y, cv=kfold)
-print(results.mean())
-
-
-9.4 Random Forest Classification
-
-import pandas
-from sklearn import model_selection
-from sklearn.ensemble import RandomForestClassifier
-url = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv"
-names = ['preg', 'plas', 'pres', 'skin', 'test', 'mass', 'pedi', 'age', 'class']
-dataframe = pandas.read_csv(url, names=names)
-array = dataframe.values
-X = array[:,0:8]
-Y = array[:,8]
-seed = 7
-num_trees = 100
-max_features = 3
-kfold = model_selection.KFold(n_splits=10, random_state=None)
-model = RandomForestClassifier(n_estimators=num_trees, max_features=max_features)
-results = model_selection.cross_val_score(model, X, Y, cv=kfold)
-print(results.mean())
-
-
-9.5 Stochastic Gradient Boosting Classification
-
-import pandas
-from sklearn import model_selection
-from sklearn.ensemble import GradientBoostingClassifier
-url = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv"
-names = ['preg', 'plas', 'pres', 'skin', 'test', 'mass', 'pedi', 'age', 'class']
-dataframe = pandas.read_csv(url, names=names)
-array = dataframe.values
-X = array[:,0:8]
-Y = array[:,8]
-seed = 7
-num_trees = 100
-kfold = model_selection.KFold(n_splits=10, random_state=None)
-model = GradientBoostingClassifier(n_estimators=num_trees, random_state=None)
-results = model_selection.cross_val_score(model, X, Y, cv=kfold)
-print(results.mean())
-
-
-9.6 Voting Ensemble for Classification
-
-import pandas
-from sklearn import model_selection
-from sklearn.linear_model import LogisticRegression
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.svm import SVC
-from sklearn.ensemble import VotingClassifier
-url = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv"
-names = ['preg', 'plas', 'pres', 'skin', 'test', 'mass', 'pedi', 'age', 'class']
-dataframe = pandas.read_csv(url, names=names)
-array = dataframe.values
-X = array[:,0:8]
-Y = array[:,8]
-seed = 7
-kfold = model_selection.KFold(n_splits=10, random_state=None)
-estimators = []
-model1 = LogisticRegression()
-estimators.append(('logistic', model1))
-model2 = DecisionTreeClassifier()
-estimators.append(('cart', model2))
-model3 = SVC()
-estimators.append(('svm', model3))
-ensemble = VotingClassifier(estimators)
-results = model_selection.cross_val_score(ensemble, X, Y, cv=kfold)
-print(results.mean()) 
+<body>
+   <h1>RPi Web Server</h1>
+   {% for pin in pins %}
+   <h2>{{ pins[pin].name }}
+   {% if pins[pin].state == true %}
+      is currently <strong>on</strong></h2><div class="row"><div class="col-md-2">
+      <a href="/{{pin}}/off" class="btn btn-block btn-lg btn-default" role="button">Turn off</a></div></div>
+   {% else %}
+      is currently <strong>off</strong></h2><div class="row"><div class="col-md-2">
+      <a href="/{{pin}}/on" class="btn btn-block btn-lg btn-primary" role="button">Turn on</a></div></div>
+   {% endif %}
+   {% endfor %}
+</body>
+</html>
