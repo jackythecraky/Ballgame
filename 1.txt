@@ -334,6 +334,7 @@ subplot(224);imshow(imd2);title('First Image / constant / 0.2');
 
 
 8. a. Differentiation of Gaussian function
+
 clc;
 close;
 sigma = input('Enter the value of sigma:')
