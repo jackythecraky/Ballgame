@@ -410,6 +410,8 @@ title("Image Erode")
 
 
 10. a. Histogram of Gray Scale Image and equalized Image
+
+
 function histoplot(number, image, header)
     image = double(image);
     
