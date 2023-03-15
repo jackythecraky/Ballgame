@@ -1,0 +1,79 @@
+Lasso Regression
+
+Load the Data
+> #define response variable
+> y <- diabetes$hp
+
+> #define matrix of predictor variables
+x <- data.matrix(diabetes[, c('BMI', 'Age', 'Glucose', 'Outcome')])
+> x
+
+> y
+NULL
+
+Fit the Lasso Regression Model
+> library(glmnet)
+> #perform k-fold cross-validation to find optimal lambda value
+> cv_model <- cv.glmnet(x, y, alpha = 1)
+> cv_model
+Call:  cv.glmnet(x = x, y = y, alpha = 1)
+
+Measure: Mean-Squared Error
+
+    Lambda Index Measure    SE Nonzero
+min  2.668    33    1252 409.9       3
+1se 15.628    14    1629 612.2       3
+
+> #find optimal lambda value that minimizes test MSE
+> best_lambda <- cv_model$lambda.min
+> best_lambda
+[1] 2.668219
+> #produce plot of test MSE by lambda value
+> plot(cv_model)
+
+Analyze Final Model
+> #find coefficients of best model
+> best_model <- glmnet(x, y, alpha = 1, lambda = best_lambda)
+> coef(best_model)
+5 x 1 sparse Matrix of class "dgCMatrix"
+                   s0
+(Intercept) 484.20742
+mpg          -2.95796
+wt           21.37988
+drat          .      
+qsec        -19.43425
+
+No coefficient is shown for the predictor drat because the lasso regression shrunk the coefficient all the way to zero. This means it was completely dropped from the model because it wasn’t influential enough.
+
+We can also use the final lasso regression model to make predictions on new observations. For example, suppose we have a new car with the following attributes:
+    • mpg: 24
+    • wt: 2.5
+    • drat: 3.5
+    • qsec: 18.5
+The following code shows how to use the fitted lasso regression model to predict the value for hp of this new observation:
+
+> #define new observation
+> new = matrix(c(24, 2.5, 3.5, 18.5), nrow=1, ncol=4)
+>
+> #use lasso regression model to predict response value
+> predict(best_model, s = best_lambda, newx = new)
+           s1
+[1,] 107.1325
+
+Based on the input values, the model predicts this car to have an hp value of 107.1325.
+Lastly, we can calculate the R-squared of the model on the training data:
+
+> #use fitted best model to make predictions
+> y_predicted <- predict(best_model, s = best_lambda, newx = x)
+>
+> #find SST and SSE
+> sst <- sum((y - mean(y))^2)
+> sse <- sum((y_predicted - y)^2)
+>
+> #find R-Squared
+> rsq <- 1 - sse/sst
+> rsq
+[1] 0.803853
+
+
+https://www.statology.org/lasso-regression-in-r/

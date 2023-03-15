@@ -1,0 +1,49 @@
+DATA TRANSFORMATION
+
+# Filter Rows with filter()
+    1. filter(car.data,Car_Name == 'sx4')
+
+    2. varritz <- filter(car.data , Car_Name == 'ritz')
+           varritz
+    3. filter(car.data,Car_Name == 'sx4')
+
+
+# Logical Operators
+    1. filter(car.data,Car_Name == 'sx4' | Car_Name == "ritz")
+    2. varSelling_Price <- filter(car.data, Kms_Driven %in% c("27000","6900"))
+varSelling_Price
+    3. filter(car.data,Present_Price <= 2000, Present_Price <= 4000)
+    4. is.na(car.data)
+
+# Arrange Rows with arrange()
+    1. arrange(car.data,Selling_Price,Present_Price,Kms_Driven)
+    2. arrange(car.data,desc(Selling_Price))
+
+# Select Columns with select()
+    1. select(car.data,Selling_Price,Present_Price,Kms_Driven)
+    2. select(car.data,Selling_Price:Present_Price)
+    3. select(car.data,-(Selling_Price:Present_Price))
+
+#rename
+    1. rename(car.data,selling= Selling_Price)
+#Add New Variables with Mutate\
+    1. Code:- car.data%>%
++ mutate(Fuel_Type,Transmission)
+
+# Grouped Summaries with summarize()
+    1. summarise(car.data,Present_Price =mean (Selling_Price,na.rm = TRUE))
+
+# Missing Values
+# all aggregation functions have an na.rm argument, which removes the missing values prior to
+Computation
+    1. car.data%>%
++ group_by(Selling_Price,Present_Price,Kms_Driven)%>%
++ summarise(mean = mean(Selling_Price,na.rm = TRUE))
+
+# Measures of spread sd(x), IQR(x), mad(x)
+# Why is distance to some destinations more variable
+# than to others?
+    1. delays %>%
+       filter(n > 25) %>%
+       ggplot(mapping = aes(x = n, y = delay)) +
+       geom_point(alpha = 1/10)

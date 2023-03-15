@@ -1,0 +1,48 @@
+Exploratory Data Analysis 
+
+PRACTICAL:03
+
+>library(tidyverse) 
+    • Visualizing Distribution
+>ggplot(data = diabetes) +     geom_bar(mapping = aes(x = BMI))
+> diabetes %>%+     count(BMI)
+>ggplot(data = diabetes) +     geom_histogram(mapping = aes(x = Age), binwidth = 0.5)
+>ggplot(data = diabetes, mapping = aes(x = BMI, color = Age)) +     geom_freqpoly(binwidth = 0.1)
+
+    • Typical Values 
+>ggplot(data = diabetes, mapping = aes(x = BMI)) +     geom_histogram(binwidth = 0.01)
+        >ggplot(data = faithful, mapping = aes(x = eruptions)) + geom_histogram(binwidth = 0.25)
+
+    • Unusual Values 
+>ggplot(diabetes) +     geom_histogram(mapping = aes(x =Age), binwidth = 0.5)
+    • Missing Values
+>ggplot(data = diabetes, mapping = aes(x = x, y = y)) + geom_point()
+    • A Categorical and Continuous Variable
+> ggplot(data = diabetes, mapping = aes(x = Glucose)) + geom_freqpoly(mapping = aes(color = "Outcome"), binwidth = 500)
+        >ggplot(diabetes) +     geom_bar(mapping = aes(x = Glucose))
+      >ggplot(data = diabetes, mapping = aes(x = Outcome, y = Glucose)) + geom_boxplot()
+    • Two Categorical Variables
+ggplot(data = diabetes) +     geom_count(mapping = aes(x = BMI, y = Insulin))
+
+    • Two Continuous Variables 
+>ggplot(data = diabetes) +     geom_point(mapping = aes(x = Insulin, y = BMI))
+ggplot(data = diabetes) +     geom_point(
++         mapping = aes(x = Age, y = BMI),
++         alpha = 10 / 100
++     )
+
+>ggplot(data = diabetes, mapping = aes(x = Age, y = BMI)) +     geom_boxplot(mapping = aes(group = cut_width(Outcome, 0.1)))
+>ggplot(data = diabetes, mapping = aes(x = Age, y = BMI)) +
+    geom_boxplot(mapping = aes(group = cut_number(BloodPressure, 10)))
+>ggplot(data = diabetes) +     geom_point(mapping = aes(x = BloodPressure, y = Age)) +
++     coord_cartesian(xlim = c(4, 11), ylim = c(4, 11))
+	
+    • Patterns and Models
+>ggplot(data = faithful) + geom_point(mapping = aes(x = eruptions, y = waiting))
+> ggplot(data = diabetes) +     geom_boxplot(mapping = aes(x = Insulin, y = BloodPressure))
+> ggplot(data = diabetes) +     geom_boxplot(mapping = aes(x = Insulin, y = BloodPressure))
+
+    • ggplot2 Calls 
+>ggplot(data = diabetes, mapping = aes(x = BloodPressure)) +     geom_freqpoly(binwidth = 0.25)
+        >ggplot(diabetes, aes(BMI)) +     geom_freqpoly(binwidth = 0.25)
+        >diabetes %>%+     count(Age, BMI) %>%+     ggplot(aes(BMI, Age, fill = n)) +geom_tile()

@@ -1,0 +1,25 @@
+                                 Data Modeling
+#A Simple Model
+    1. ggplot(car.data, aes(x = Present_Price, y = Selling_Price)) + geom_point()
+
+    2. tibble(   a1 = runif(250, -20, 40),   a2 = runif(250, -5, 5) )
+
+    3. ggplot(car.data, aes(x = Year, y = Present_Price)) +   geom_abline( aes(intercept = 5.590, slope = 9.540),     data = car.data, alpha = 1/4   ) + geom_point()
+
+
+# Formulas and Model Families
+
+
+    1. > df <- tribble(
++     ~y, ~x1, ~x2,
++     4, 2, 5,
++     5, 1, 6)
+
+    2. model_matrix(df, y ~ x1 - 1)
+    3.  model_matrix(df, y ~ x1 + x2)
+Categorical Variables
+    1. df <- tribble( ~ sex, ~ response, "male", 1, "female", 2, "male", 1 ) model_matrix(df, response ~ sex)
+    2. ggplot(sim2) + geom_point(aes(x, y))
+    3. grid <- sim2 %>% data_grid(x) %>% add_predictions(mod2) grid
+    4. ggplot(sim2, aes(x)) + geom_point(aes(y = y)) + geom_point( data = grid, aes(y = pred), color = "red", size = 4)
+    5. tibble(x = "e") %>% add_predictions(mod2)

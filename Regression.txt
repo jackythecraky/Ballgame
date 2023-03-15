@@ -1,0 +1,372 @@
+Regression
+Regression
+Input Data
+Below is the sample data representing the observations −
+# Values of height
+151, 174, 138, 186, 128, 136, 179, 163, 152, 131
+
+# Values of weight.
+63, 81, 56, 91, 47, 57, 76, 72, 62, 48
+lm() Function
+Create Relationship Model & get the Coefficients
+x <- c(151, 174, 138, 186, 128, 136, 179, 163, 152, 131)
+y <- c(63, 81, 56, 91, 47, 57, 76, 72, 62, 48)
+
+# Apply the lm() function.
+relation <- lm(y~x)
+
+print(relation)
+
+When we execute the above code, it produces the following result −
+Call:
+lm(formula = y ~ x)
+
+Coefficients:
+(Intercept)            x  
+   -38.4551          0.6746
+Get the Summary of the Relationship
+
+x <- c(151, 174, 138, 186, 128, 136, 179, 163, 152, 131)
+y <- c(63, 81, 56, 91, 47, 57, 76, 72, 62, 48)
+
+# Apply the lm() function.
+relation <- lm(y~x)
+
+print(summary(relation))
+When we execute the above code, it produces the following result −
+Call:
+lm(formula = y ~ x)
+
+Residuals:
+    Min      1Q     Median      3Q     Max
+-6.3002    -1.6629  0.0412    1.8944  3.9775
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -38.45509    8.04901  -4.778  0.00139 **
+x             0.67461    0.05191  12.997 1.16e-06 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 3.253 on 8 degrees of freedom
+Multiple R-squared:  0.9548,    Adjusted R-squared:  0.9491
+F-statistic: 168.9 on 1 and 8 DF,  p-value: 1.164e-06
+predict() Function
+Predict the weight of new persons
+# The predictor vector.
+x <- c(151, 174, 138, 186, 128, 136, 179, 163, 152, 131)
+
+# The resposne vector.
+y <- c(63, 81, 56, 91, 47, 57, 76, 72, 62, 48)
+
+# Apply the lm() function.
+relation <- lm(y~x)
+
+# Find weight of a person with height 170.
+a <- data.frame(x = 170)
+result <-  predict(relation,a)
+print(result)
+When we execute the above code, it produces the following result −
+       1
+76.22869
+Visualize the Regression Graphically
+# Create the predictor and response variable.
+x <- c(151, 174, 138, 186, 128, 136, 179, 163, 152, 131)
+y <- c(63, 81, 56, 91, 47, 57, 76, 72, 62, 48)
+relation <- lm(y~x)
+
+# Give the chart file a name.
+png(file = "linearregression.png")
+
+# Plot the chart.
+plot(y,x,col = "blue",main = "Height & Weight Regression",
+abline(lm(x~y)),cex = 1.3,pch = 16,xlab = "Weight in Kg",ylab = "Height in cm")
+
+# Save the file.
+dev.off()
+When we execute the above code, it produces the following result −
+
+
+
+
+Multiple Regression:
+
+Input Data
+
+input <- mtcars[,c("mpg","disp","hp","wt")]
+print(head(input))
+When we execute the above code, it produces the following result −
+                   mpg   disp   hp    wt
+Mazda RX4          21.0  160    110   2.620
+Mazda RX4 Wag      21.0  160    110   2.875
+Datsun 710         22.8  108     93   2.320
+Hornet 4 Drive     21.4  258    110   3.215
+Hornet Sportabout  18.7  360    175   3.440
+Valiant            18.1  225    105   3.460
+Create Relationship Model & get the Coefficients
+input <- mtcars[,c("mpg","disp","hp","wt")]
+
+# Create the relationship model.
+model <- lm(mpg~disp+hp+wt, data = input)
+
+# Show the model.
+print(model)
+
+# Get the Intercept and coefficients as vector elements.
+cat("# # # # The Coefficient Values # # # ","\n")
+
+a <- coef(model)[1]
+print(a)
+
+Xdisp <- coef(model)[2]
+Xhp <- coef(model)[3]
+Xwt <- coef(model)[4]
+
+print(Xdisp)
+print(Xhp)
+print(Xwt)
+When we execute the above code, it produces the following result −
+Call:
+lm(formula = mpg ~ disp + hp + wt, data = input)
+
+Coefficients:
+(Intercept)         disp           hp           wt  
+  37.105505      -0.000937        -0.031157    -3.800891  
+
+# # # # The Coefficient Values # # #
+(Intercept)
+   37.10551
+         disp
+-0.0009370091
+         hp
+-0.03115655
+       wt
+-3.800891
+Create Equation for Regression Model
+Based on the above intercept and coefficient values, we create the mathematical equation.
+Y = a+Xdisp.x1+Xhp.x2+Xwt.x3
+or
+Y = 37.15+(-0.000937)*x1+(-0.0311)*x2+(-3.8008)*x3
+Apply Equation for predicting New Values
+We can use the regression equation created above to predict the mileage when a new set of values for displacement, horse power and weight is provided.
+For a car with disp = 221, hp = 102 and wt = 2.91 the predicted mileage is −
+Y = 37.15+(-0.000937)*221+(-0.0311)*102+(-3.8008)*2.91 = 22.710
+
+
+
+Logistic Regression:
+# Select some columns form mtcars.
+input <- mtcars[,c("am","cyl","hp","wt")]
+
+print(head(input))
+When we execute the above code, it produces the following result −
+                  am   cyl  hp    wt
+Mazda RX4          1   6    110   2.620
+Mazda RX4 Wag      1   6    110   2.875
+Datsun 710         1   4     93   2.320
+Hornet 4 Drive     0   6    110   3.215
+Hornet Sportabout  0   8    175   3.440
+Valiant            0   6    105   3.460
+Create Regression Model
+We use the glm() function to create the regression model and get its summary for analysis.
+
+input <- mtcars[,c("am","cyl","hp","wt")]
+
+am.data = glm(formula = am ~ cyl + hp + wt, data = input, family = binomial)
+
+print(summary(am.data))
+When we execute the above code, it produces the following result −
+Call:
+glm(formula = am ~ cyl + hp + wt, family = binomial, data = input)
+
+Deviance Residuals:
+     Min        1Q      Median        3Q       Max  
+-2.17272     -0.14907  -0.01464     0.14116   1.27641  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)  
+(Intercept) 19.70288    8.11637   2.428   0.0152 *
+cyl          0.48760    1.07162   0.455   0.6491  
+hp           0.03259    0.01886   1.728   0.0840 .
+wt          -9.14947    4.15332  -2.203   0.0276 *
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 43.2297  on 31  degrees of freedom
+Residual deviance:  9.8415  on 28  degrees of freedom
+AIC: 17.841
+
+Number of Fisher Scoring iterations: 8
+Conclusion
+In the summary as the p-value in the last column is more than 0.05 for the variables "cyl" and "hp", we consider them to be insignificant in contributing to the value of the variable "am". Only weight (wt) impacts the "am" value in this regression model.
+
+
+Normal distribution
+dnorm()
+This function gives height of the probability distribution at each point for a given mean and standard deviation.
+
+# Create a sequence of numbers between -10 and 10 incrementing by 0.1.
+x <- seq(-10, 10, by = .1)
+
+# Choose the mean as 2.5 and standard deviation as 0.5.
+y <- dnorm(x, mean = 2.5, sd = 0.5)
+
+# Give the chart file a name.
+png(file = "dnorm.png")
+
+plot(x,y)
+
+# Save the file.
+dev.off()
+When we execute the above code, it produces the following result −
+
+
+pnorm()
+This function gives the probability of a normally distributed random number to be less that the value of a given number. It is also called "Cumulative Distribution Function".
+
+# Create a sequence of numbers between -10 and 10 incrementing by 0.2.
+x <- seq(-10,10,by = .2)
+ 
+# Choose the mean as 2.5 and standard deviation as 2.
+y <- pnorm(x, mean = 2.5, sd = 2)
+
+# Give the chart file a name.
+png(file = "pnorm.png")
+
+# Plot the graph.
+plot(x,y)
+
+# Save the file.
+dev.off()
+When we execute the above code, it produces the following result −
+
+
+qnorm()
+This function takes the probability value and gives a number whose cumulative value matches the probability value.
+
+# Create a sequence of probability values incrementing by 0.02.
+x <- seq(0, 1, by = 0.02)
+
+# Choose the mean as 2 and standard deviation as 3.
+y <- qnorm(x, mean = 2, sd = 1)
+
+# Give the chart file a name.
+png(file = "qnorm.png")
+
+# Plot the graph.
+plot(x,y)
+
+# Save the file.
+dev.off()
+When we execute the above code, it produces the following result −
+
+rnorm()
+This function is used to generate random numbers whose distribution is normal. It takes the sample size as input and generates that many random numbers. We draw a histogram to show the distribution of the generated numbers.
+
+# Create a sample of 50 numbers which are normally distributed.
+y <- rnorm(50)
+
+# Give the chart file a name.
+png(file = "rnorm.png")
+
+# Plot the histogram for this sample.
+hist(y, main = "Normal DIstribution")
+
+# Save the file.
+dev.off()
+When we execute the above code, it produces the following result −
+
+
+
+
+
+Bionomial distribution:
+dbinom()
+This function gives the probability density distribution at each point.
+
+# Create a sample of 50 numbers which are incremented by 1.
+x <- seq(0,50,by = 1)
+
+# Create the binomial distribution.
+y <- dbinom(x,50,0.5)
+
+# Give the chart file a name.
+png(file = "dbinom.png")
+
+# Plot the graph for this sample.
+plot(x,y)
+
+# Save the file.
+dev.off()
+When we execute the above code, it produces the following result −
+
+pbinom()
+This function gives the cumulative probability of an event. It is a single value representing the probability.
+
+# Probability of getting 26 or less heads from a 51 tosses of a coin.
+x <- pbinom(26,51,0.5)
+
+print(x)
+When we execute the above code, it produces the following result −
+[1] 0.610116
+qbinom()
+This function takes the probability value and gives a number whose cumulative value matches the probability value.
+
+# How many heads will have a probability of 0.25 will come out when a coin
+# is tossed 51 times.
+x <- qbinom(0.25,51,1/2)
+
+print(x)
+When we execute the above code, it produces the following result −
+[1] 23
+rbinom()
+This function generates required number of random values of given probability from a given sample.
+
+# Find 8 random values from a sample of 150 with probability of 0.4.
+x <- rbinom(8,150,.4)
+
+print(x)
+When we execute the above code, it produces the following result −
+[1] 58 61 59 66 55 60 61 67
+Poisson Regression
+Input Data
+input <- warpbreaks
+print(head(input))
+When we execute the above code, it produces the following result −
+      breaks   wool  tension
+1     26       A     L
+2     30       A     L
+3     54       A     L
+4     25       A     L
+5     70       A     L
+6     52       A     L
+Create Regression Model
+output <-glm(formula = breaks ~ wool+tension, data = warpbreaks,
+   family = poisson)
+print(summary(output))
+When we execute the above code, it produces the following result −
+Call:
+glm(formula = breaks ~ wool + tension, family = poisson, data = warpbreaks)
+
+Deviance Residuals:
+    Min       1Q     Median       3Q      Max  
+  -3.6871  -1.6503  -0.4269     1.1902   4.2616  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)  3.69196    0.04541  81.302  < 2e-16 ***
+woolB       -0.20599    0.05157  -3.994 6.49e-05 ***
+tensionM    -0.32132    0.06027  -5.332 9.73e-08 ***
+tensionH    -0.51849    0.06396  -8.107 5.21e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for poisson family taken to be 1)
+
+    Null deviance: 297.37  on 53  degrees of freedom
+Residual deviance: 210.39  on 50  degrees of freedom
+AIC: 493.06
+
+Number of Fisher Scoring iterations: 4

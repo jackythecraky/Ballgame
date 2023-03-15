@@ -1,0 +1,71 @@
+ Data Visualization with ggplot2    (pract 1)
+
+install.packages("tidyverse")
+	library(tidyverse)
+
+
+1. Creating a ggplot
+ggplot(data = internet) + geom_point(mapping = aes(x = usage, y = country))
+
+
+2. How many rows are in mtcars? How many columns?
+nrow(internet)
+ncol(internet)
+
+
+3. Aesthetic Mappings:
+	1. Color by usage:
+
+ggplot(data = internet) + geom_point(mapping = aes(x = usage, y = country, color = usage))
+
+
+2. size by usage:
+	code:
+		ggplot(data = internet) + geom_point(mapping = aes(x = usage, y = country, size = usage))
+
+
+3.Alpha by usage:
+	code:
+		ggplot(data = internet) + geom_point(mapping = aes(x = usage, y = country, alpha = usage))
+
+
+4. Color:
+	code:
+		ggplot(data = internet) + geom_point(mapping = aes(x = usage, y = country), color = "orange")
+
+
+5. Shapes:
+	
+	code:
+		ggplot(data = internet) + geom_point(mapping = aes(x = usage, y = country), shape = 22, color="purple")
+
+
+
+6. Facets:
+	1. facet_wrap:
+	code:
+		ggplot(data = internet) + geom_point(mapping = aes(x = usage, y = rate)) + 				
+facet_wrap(~ country, nrow = 2)
+
+
+7z. Geometric Objects
+code:
+	ggplot(data = internet) + geom_smooth(mapping = aes(x = usage, y = income))
+
+
+
+code:
+	ggplot(data = internet) + geom_point(mapping = aes(x = usage, y = income)) + 	geom_smooth(mapping = aes(x = usage, y = income))
+
+
+code:
+	ggplot(data = internet, mapping = aes(x = usage, y = income)) + geom_point(mapping = aes(color = country)) + geom_smooth()
+
+
+
+
+
+
+
+
+
