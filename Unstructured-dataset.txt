@@ -1,0 +1,51 @@
+Accessing unstructured data
+
+library(ggplot2)
+library(dplyr)
+library(maps)
+library(ggmap)
+library(mongolite)
+library(lubridate)
+library(gridExtra)
+
+library("rjson")
+
+> dataset = data.table::fread("D:\\OneDrive\\Documents\\SEM-6\\USCS606-Data Science\\Dataset\\DF-3\\DataCoSupplyChainDataset.csv")
+
+> names(dataset) = gsub(" ","",names(dataset))
+> names(dataset)
+
+> my_collection = mongo(collection = "dataset", db = "my_dataset")
+> my_collection$insert(dataset)
+
+> my_collection$count()
+
+> my_collection$iterate()$one()
+
+> length(my_collection$distinct("Type"))
+
+> my_collection$count('{"Type" : "CASH", "DeliveryStatus" : "Late delivery"}')
+
+> my_collection$aggregate('[{"$group":{"_id":"$ShippingMode", "Count": {"$sum":1}}}]')%>%na.omit()%>%
++     arrange(desc(Count))%>%head(10)%>%
++     ggplot(aes(x=reorder(`_id`,Count),y=Count))+
++     geom_bar(stat="identity",color='skyblue',fill='#b35900')+geom_text(aes(label = Count), color = "blue") +coord_flip()+xlab("Shipping Modes")
+
+> query3= my_collection$find('{}', fields = '{"_id":0, "Latitude":1, "Longitude":1,"Year":1}')
+> query3
+
+> shippingStatus=my_collection$find('{"OrderStatus":"COMPLETE"}', fields = '{"_id":0, "OrderStatus":1,"orderdate(DateOrders)":1}')
+
+> myDataset <- fromJSON(file="")
+> print(myDataset)
+
+> json_dataframe <- as.data.frame(myDataset)
+> print(json_dataframe)
+
+> list1 <- vector(mode="list", length=2)
+> list1[[1]] <- c("apple", "banana", "rose")
+> list1[[2]] <- c("fruit", "fruit", "flower")
+> jsonData <- toJSON(list1)
+> write(jsonData, "output.json")
+> myOutput <- fromJSON(file="output.json")
+> myOutput
