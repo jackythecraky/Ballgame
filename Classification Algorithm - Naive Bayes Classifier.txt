@@ -1,0 +1,25 @@
+Classification Algorithm - Naive Bayes Classifier
+# Installing Packages
+install.packages("e1071")
+install.packages("caTools")
+install.packages("caret")
+
+# Loading package
+library(e1071)
+library(caTools)
+library(caret)
+Fitting Naive Bayes Model
+# to training dataset
+set.seed(120) # Setting Seed
+classifier_cl <- naiveBayes(Species ~ ., data = train_cl)
+classifier_cl
+
+
+
+# Confusion Matrix
+cm <- table(test_cl$Species, y_pred)
+cm
+
+# Model Evaluation
+confusionMatrix(cm)
+

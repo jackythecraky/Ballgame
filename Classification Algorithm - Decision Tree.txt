@@ -1,0 +1,57 @@
+Classification Algorithm - Decision Tree
+Install all the library we need to perform
+library(datasets)
+library(caTools)
+library(party)
+library(dplyr)
+library(magrittr)
+
+To import our dataset in r
+>data("readingSkills")
+>head(readingSkills)
+
+code:
+> sample_data = sample.split(readingSkills, SplitRatio = 0.8)
+> train_data <- subset(readingSkills, sample_data == TRUE)
+> test_data <- subset(readingSkills, sample_data == FALSE)
+> model<- ctree(nativeSpeaker ~ ., train_data)
+> plot(model)
+
+output:
+
+
+
+
+
+
+
+
+
+
+
+Code :
+>predict_model<-predict(model, test_data)
+> m_at<-table(test_data$nativeSpeaker, predict_model)
+> m_at
+
+Output :
+     predict_model
+      no yes
+  no  13  13
+  yes  0  24
+
+
+
+
+
+
+Code :
+
+> ac_Test<-sum(diag(m_at)) / sum(m_at)
+> print(paste('Accuracy for test is found to be', m_at))
+
+Output :
+[1] "Accuracy for test is found to be 13" "Accuracy for test is found to be 0"  "Accuracy for test is found to be 13"
+[4] "Accuracy for test is found to be 24"
+
+
